@@ -36,6 +36,12 @@ const UserForm = props => {
         )}
         </div>
 
+        {/* // Address Input  */}
+        <div className="input">
+        <h3 className="header">Address: </h3>
+        <Field type="text" name="address" placeholder="Address" />
+        </div>
+
         {/* // Password Input  */}
         <div className="input">
         <h3 className="header">Password: </h3>
@@ -80,6 +86,7 @@ const UserForm = props => {
         <div className="displayuser" key={user.id}>
           <div className="info"> Name: {user.name} </div>
           <div className="info">Email: {user.email}</div>
+          <div className="info">Address: {user.address}</div>
           <div className="info">Role: {user.role}</div>
         </div>
       ))}
@@ -95,6 +102,7 @@ const FormikUserForm = withFormik({
     return {
       name: values.name || "",
       email: values.email || "",
+      address: values.address|| "",
       password: values.password || "",
 
       serviceterms: values.serviceterms || false
