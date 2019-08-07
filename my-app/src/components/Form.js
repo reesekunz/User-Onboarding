@@ -11,22 +11,35 @@ const UserForm = props => {
 
       <Form>
         <h3>Name</h3>
-        <Field type="text" name="name" placeholder= "Name" />
+        <Field type="text" name="name" placeholder="Name" />
 
         {props.touched.name && props.errors.name && (
-        <p className="error">{props.errors.name}</p>)}
+          <p className="error">{props.errors.name}</p>
+        )}
 
         <h3>Email</h3>
         <Field type="text" name="email" placeholder="Email" />
 
         {props.touched.email && props.errors.email && (
-        <p className="error">{props.errors.email}</p>)}
+          <p className="error">{props.errors.email}</p>
+        )}
 
         <h3>Password</h3>
-        <Field type="text" name="password" placeholder="Password" />
+        <Field type="password" name="password" placeholder="Password" />
 
         {props.touched.password && props.errors.password && (
-        <p className="error">{props.errors.password}</p>)}
+          <p className="error">{props.errors.password}</p>
+        )}
+
+        <label className="termsofservice">
+          I Agree to the Terms of Service
+          <Field
+            type="checkbox"
+            name="serviceterms"
+            checked={props.values.serviceterms}
+          />
+          <span className="checkmark" />
+        </label>
 
         <button type="submit"> Submit!</button>
       </Form>
@@ -35,27 +48,27 @@ const UserForm = props => {
 };
 
 // Higher Order Component - HOC
-// Returns a new component (copy of UserForm but with extended logic) 
-
+// Returns a new component (copy of UserForm but with extended logic)
 
 const FormikUserForm = withFormik({
   mapPropsToValues(values) {
     return {
       name: values.name || " ",
       email: values.email || " ",
-      password: values.password || " "
-    }
+      password: values.password || " ",
+
+      serviceterms: values.serviceterms || false
+    };
   },
 
-   // form validation with Yup
-   validationSchema: Yup.object().shape({
+  // form validation with Yup
+  validationSchema: Yup.object().shape({
     // take every value you want to validate, and give each value rules
     name: Yup.string().required(),
     email: Yup.string().required(),
-    password: Yup.string().required(),
-    // these give you the error props you need to apply under the each <Field> component in userForm 
+    password: Yup.string().required()
+    // these give you the error props you need to apply under the each <Field> component in userForm
   }),
-
 
   handleSubmit(values) {
     console.log("form submitted", values);
