@@ -10,11 +10,23 @@ const UserForm = props => {
       <h1>New User Form</h1>
 
       <Form>
-        <Field placeholder="Name" type="text" name="name" />
+        <h3>Name</h3>
+        <Field type="text" name="name" placeholder= "Name" />
 
-        <Field placeholder="Email" type="text" name="email" />
+        {props.touched.name && props.errors.name && (
+        <p className="error">{props.errors.name}</p>)}
 
-        <Field placeholder="Password" type="text" name="password" />
+        <h3>Email</h3>
+        <Field type="text" name="email" placeholder="Email" />
+
+        {props.touched.email && props.errors.email && (
+        <p className="error">{props.errors.email}</p>)}
+
+        <h3>Password</h3>
+        <Field type="text" name="password" placeholder="Password" />
+
+        {props.touched.password && props.errors.password && (
+        <p className="error">{props.errors.password}</p>)}
 
         <button type="submit"> Submit!</button>
       </Form>
@@ -22,14 +34,28 @@ const UserForm = props => {
   );
 };
 
+// Higher Order Component - HOC
+// Returns a new component (copy of UserForm but with extended logic) 
+
+
 const FormikUserForm = withFormik({
   mapPropsToValues(values) {
     return {
       name: values.name || " ",
       email: values.email || " ",
       password: values.password || " "
-    };
+    }
   },
+
+   // form validation with Yup
+   validationSchema: Yup.object().shape({
+    // take every value you want to validate, and give each value rules
+    name: Yup.string().required(),
+    email: Yup.string().required(),
+    password: Yup.string().required(),
+    // these give you the error props you need to apply under the each <Field> component in userForm 
+  }),
+
 
   handleSubmit(values) {
     console.log("form submitted", values);
