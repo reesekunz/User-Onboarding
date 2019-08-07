@@ -4,9 +4,9 @@ import { Form, Field, withFormik } from "formik";
 import * as Yup from "yup";
 
 const UserForm = props => {
-  // get status from props
+  // get status from props (need for step 4- displaying user data)
   const [users, setUsers] = useState([]);
-//   console.log(users);
+  //   console.log(users);
 
   useEffect(() => {
     if (props.status) {
@@ -18,28 +18,45 @@ const UserForm = props => {
   return (
     <div className="user-form">
       <h1>New User Form</h1>
-
       <Form>
+
         {/* // Name Input  */}
-        <h3>Name</h3>
-        <Field type="text" name="name" placeholder="Name" />
+        <div className="input">
+        <h3 className="header">Name: </h3>
+        <Field type="text" name="name" placeholder="Name" />*
         {props.touched.name && props.errors.name && <p>{props.errors.name}</p>}
+        </div>
 
         {/* // Email Input  */}
-        <h3>Email</h3>
-        <Field type="text" name="email" placeholder="Email" />
+        <div className="input">
+        <h3 className="header">Email: </h3>
+        <Field type="text" name="email" placeholder="Email" />*
         {props.touched.email && props.errors.email && (
           <p>{props.errors.email}</p>
         )}
+        </div>
 
         {/* // Password Input  */}
-        <h3>Password</h3>
-        <Field type="password" name="password" placeholder="Password" />
+        <div className="input">
+        <h3 className="header">Password: </h3>
+        <Field type="password" name="password" placeholder="Password" />*
         {props.touched.password && props.errors.password && (
           <p>{props.errors.password}</p>
         )}
+        </div>
+
+         {/* // Role Dropdown  */}
+         <div className="input">
+         <Field component="select" className="role-dropdown" name="role">
+          <option>Please Select a Role</option>
+          <option value="admin">Administrator</option>
+          <option value="contributor">Contributor</option>
+          <option value="viewer">Viewer</option>
+        </Field>
+        </div>
 
         {/* // Terms of Service Checkbox  */}
+        <div className="input">
         <label className="termsofservice">
           I Agree to the Terms of Service
           <Field
@@ -52,26 +69,19 @@ const UserForm = props => {
           )}
           <span className="checkmark" />
         </label>
-
-        {/* // Role Dropdown  */}
-        <Field component="select" className="role-dropdown" name="role">
-          <option>Please Select a Role</option>
-          <option value="admin">Administrator</option>
-          <option value="contributor">Contributor</option>
-          <option value="viewer">Viewer</option>
-        </Field>
+        </div>
 
         {/* // Submit Button  */}
-        <button type="submit"> Submit!</button>
+        <button className="button" type="submit"> Submit!</button>
       </Form>
 
       {/* Mapping each user and displaying their submitted info  */}
       {users.map(user => (
-        <p key={user.id}>
-          {user.name}
-          {user.email}
-          {user.role}
-        </p>
+        <div className="displayuser" key={user.id}>
+          <div className="info"> Name: {user.name} </div>
+          <div className="info">Email: {user.email}</div>
+          <div className="info">Role: {user.role}</div>
+        </div>
       ))}
     </div>
   );
