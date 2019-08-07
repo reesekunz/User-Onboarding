@@ -1,17 +1,18 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 
-import UserForm from "./components/Form"
+import FormikUserForm from "./components/Form"
 
 
 
 function App() {
   return (
     <div className="App">
-      <UserForm /> 
+      <FormikUserForm /> 
     </div>
   );
 }
+
+
 
 export default App;
