@@ -13,28 +13,23 @@ const UserForm = props => {
         {/* // Name Input  */}
         <h3>Name</h3>
         <Field type="text" name="name" placeholder="Name" />
+        {props.touched.name && props.errors.name && <p>{props.errors.name}</p>}
 
-        {props.touched.name && props.errors.name && (
-          <p className="error">{props.errors.name}</p>
-        )}
         {/* // Email Input  */}
-
         <h3>Email</h3>
         <Field type="text" name="email" placeholder="Email" />
-
         {props.touched.email && props.errors.email && (
-          <p className="error">{props.errors.email}</p>
+          <p>{props.errors.email}</p>
         )}
-        {/* // Password Input  */}
 
+        {/* // Password Input  */}
         <h3>Password</h3>
         <Field type="password" name="password" placeholder="Password" />
-
         {props.touched.password && props.errors.password && (
-          <p className="error">{props.errors.password}</p>
+          <p>{props.errors.password}</p>
         )}
-        {/* // Terms of Service Checkbox  */}
 
+        {/* // Terms of Service Checkbox  */}
         <label className="termsofservice">
           I Agree to the Terms of Service
           <Field
@@ -45,6 +40,7 @@ const UserForm = props => {
           <span className="checkmark" />
         </label>
 
+        {/* // Role Dropdown  */}
         <Field component="select" className="role-dropdown" name="role">
           <option>Please Select a Role</option>
           <option value="admin">Administrator</option>
@@ -52,6 +48,7 @@ const UserForm = props => {
           <option value="viewer">Viewer</option>
         </Field>
 
+        {/* // Submit Button  */}
         <button type="submit"> Submit!</button>
       </Form>
     </div>
@@ -64,9 +61,9 @@ const UserForm = props => {
 const FormikUserForm = withFormik({
   mapPropsToValues(values) {
     return {
-      name: values.name || " ",
-      email: values.email || " ",
-      password: values.password || " ",
+      name: values.name || "",
+      email: values.email || "",
+      password: values.password || "",
 
       serviceterms: values.serviceterms || false
     };
@@ -81,7 +78,8 @@ const FormikUserForm = withFormik({
       .required(),
     password: Yup.string()
       .min(6)
-      .required()
+      .required(),
+    serviceterms: Yup.bool().oneOf([true], "Field must be checked")
     // these give you the error props you need to apply under the each <Field> component in userForm
   }),
 
