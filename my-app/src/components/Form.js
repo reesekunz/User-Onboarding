@@ -1,9 +1,19 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Form, Field, withFormik } from "formik";
 import * as Yup from "yup";
 
 const UserForm = props => {
+  // get status from props
+  const [users, setUsers] = useState([]);
+//   console.log(users);
+
+  useEffect(() => {
+    if (props.status) {
+      setUsers([...users, props.status]);
+    }
+  }, [props.status]);
+
   //inputs needed: name, email, password, terms of service (checkbox), submit button
   return (
     <div className="user-form">
@@ -54,6 +64,15 @@ const UserForm = props => {
         {/* // Submit Button  */}
         <button type="submit"> Submit!</button>
       </Form>
+
+      {/* Mapping each user and displaying their submitted info  */}
+      {users.map(user => (
+        <p key={user.id}>
+          {user.name}
+          {user.email}
+          {user.role}
+        </p>
+      ))}
     </div>
   );
 };
@@ -82,15 +101,18 @@ const FormikUserForm = withFormik({
     password: Yup.string()
       .min(6)
       .required(),
-    serviceterms: Yup.bool().oneOf([true],"Field must be checked")
+    serviceterms: Yup.bool().oneOf([true], "Field must be checked")
     // these give you the error props you need to apply under the each <Field> component in userForm to render
   }),
+
+  // get setStatus
 
   handleSubmit(values, { setStatus }) {
     axios
       .post("https://reqres.in/api/users/", values)
       .then(response => {
         console.log(response);
+        // call setStatus and pass in object you want to add to state
         setStatus(response.data);
       })
       .catch(error => console.log(error.response));
