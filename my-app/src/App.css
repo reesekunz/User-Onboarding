@@ -1,0 +1,46 @@
+.App {
+  text-align: center;
+  background-color: linen;
+
+}
+
+.input {
+display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: center;
+margin: 1.2%;
+}
+
+.header {
+  margin-right: 1%;
+  font-size: 1.2rem;
+}
+
+.user-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+
+}
+
+.button {
+  margin-bottom: 1.2%;
+  height: 1.2rem;
+  width: auto;
+}
+
+.displayuser {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  color: white;
+  background-color: black;
+  font-size: 1.3rem;
+}
+
+.info {
+  margin: 2%;
+}
