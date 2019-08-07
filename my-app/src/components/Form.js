@@ -125,7 +125,7 @@ const FormikUserForm = withFormik({
 
   // get setStatus
 
-  handleSubmit(values, { setStatus }) {
+  handleSubmit(values, { setStatus, resetForm }) {
     axios
       .post("https://reqres.in/api/users/", values)
       .then(response => {
@@ -134,6 +134,7 @@ const FormikUserForm = withFormik({
         setStatus(response.data);
       })
       .catch(error => console.log(error.response));
+      resetForm();
   }
 })(UserForm); // currying functions in Javascript
 
