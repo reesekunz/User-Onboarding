@@ -10,12 +10,14 @@ const UserForm = props => {
       <h1>New User Form</h1>
 
       <Form>
+        {/* // Name Input  */}
         <h3>Name</h3>
         <Field type="text" name="name" placeholder="Name" />
 
         {props.touched.name && props.errors.name && (
           <p className="error">{props.errors.name}</p>
         )}
+        {/* // Email Input  */}
 
         <h3>Email</h3>
         <Field type="text" name="email" placeholder="Email" />
@@ -23,6 +25,7 @@ const UserForm = props => {
         {props.touched.email && props.errors.email && (
           <p className="error">{props.errors.email}</p>
         )}
+        {/* // Password Input  */}
 
         <h3>Password</h3>
         <Field type="password" name="password" placeholder="Password" />
@@ -30,6 +33,7 @@ const UserForm = props => {
         {props.touched.password && props.errors.password && (
           <p className="error">{props.errors.password}</p>
         )}
+        {/* // Terms of Service Checkbox  */}
 
         <label className="termsofservice">
           I Agree to the Terms of Service
@@ -40,6 +44,13 @@ const UserForm = props => {
           />
           <span className="checkmark" />
         </label>
+
+        <Field component="select" className="role-dropdown" name="role">
+          <option>Please Select a Role</option>
+          <option value="admin">Administrator</option>
+          <option value="contributor">Contributor</option>
+          <option value="viewer">Viewer</option>
+        </Field>
 
         <button type="submit"> Submit!</button>
       </Form>
@@ -65,17 +76,22 @@ const FormikUserForm = withFormik({
   validationSchema: Yup.object().shape({
     // take every value you want to validate, and give each value rules
     name: Yup.string().required(),
-    email: Yup.string().required(),
-    password: Yup.string().required()
+    email: Yup.string()
+      .email("Email not valid")
+      .required(),
+    password: Yup.string()
+      .min(6)
+      .required()
     // these give you the error props you need to apply under the each <Field> component in userForm
   }),
 
-  handleSubmit(values) {
-    console.log("form submitted", values);
+  handleSubmit(values, { setStatus }) {
     axios
-      .post("https://reqres.in/api/users", values)
-      // with post, pass in data you're trying to post to database
-      .then(response => console.log(response))
+      .post("https://reqres.in/api/users/", values)
+      .then(response => {
+        console.log(response);
+        setStatus(response.data);
+      })
       .catch(error => console.log(error.response));
   }
 })(UserForm); // currying functions in Javascript
