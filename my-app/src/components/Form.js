@@ -37,6 +37,9 @@ const UserForm = props => {
             name="serviceterms"
             checked={props.values.serviceterms}
           />
+          {props.touched.serviceterms && props.errors.serviceterms && (
+            <p>{props.errors.serviceterms}</p>
+          )}
           <span className="checkmark" />
         </label>
 
@@ -79,8 +82,8 @@ const FormikUserForm = withFormik({
     password: Yup.string()
       .min(6)
       .required(),
-    serviceterms: Yup.bool().oneOf([true], "Field must be checked")
-    // these give you the error props you need to apply under the each <Field> component in userForm
+    serviceterms: Yup.bool().oneOf([true],"Field must be checked")
+    // these give you the error props you need to apply under the each <Field> component in userForm to render
   }),
 
   handleSubmit(values, { setStatus }) {
